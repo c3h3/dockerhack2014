@@ -1,0 +1,43 @@
+{
+  "dependencies": {
+    "dockerode": {
+      "version": "2.0.4",
+      "dependencies": {
+        "docker-modem": {
+          "version": "0.1.19",
+          "dependencies": {
+            "debug": {
+              "version": "0.7.4"
+            },
+            "follow-redirects": {
+              "version": "0.0.3"
+            },
+            "querystring": {
+              "version": "0.2.0"
+            },
+            "readable-stream": {
+              "version": "1.0.33",
+              "dependencies": {
+                "core-util-is": {
+                  "version": "1.0.1"
+                },
+                "isarray": {
+                  "version": "0.0.1"
+                },
+                "string_decoder": {
+                  "version": "0.10.31"
+                },
+                "inherits": {
+                  "version": "2.0.1"
+                }
+              }
+            }
+          }
+        },
+        "underscore": {
+          "version": "1.5.2"
+        }
+      }
+    }
+  }
+}
