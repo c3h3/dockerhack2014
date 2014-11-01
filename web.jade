@@ -11,21 +11,16 @@ template(name="navBar")
           span.icon-bar
           span.icon-bar
 
-        a.navbar-brand(href="/") Shogun IPyNB
+        a.navbar-brand(href="/") Docker Data
       .collapse.navbar-collapse
         ul.nav.navbar-nav
           li.nav.navbar-nav
-            a(href="{{pathFor 'videos'}}") All
+            a(href="{{pathFor 'shogun'}}") IPyNB
 
           li.nav.navbar-nav
-            a(href="#") Communities
+            a(href="{{pathFor 'shogun'}}") RStudio
 
-          li.nav.navbar-nav
-            a(href="/videoSearch") Search
-          li.nav.navbar-nav
-            a(href="#") Tags
-          li.nav.navbar-nav
-            a(href="#") Maps
+
 
         ul.nav.navbar-nav.navbar-right
           li.nav.navbar-nav
@@ -33,5 +28,20 @@ template(name="navBar")
           li
             +loginButtons
 
-template(name="helloShogun")
-  h2 Hello Shogun! 
+template(name="shogunIndex")
+  .container
+    .tabbable
+      .tab-pane.active
+        input.connectBt.btn.btn-default(value="Connect to IPyNB")
+        a.goBt.btn.btn-default(href="http://10.255.252.206:{{ipynb.port}}") Go to ipynb page  
+        iframe#ipynbframe(src="", width="100%", height="550px")
+          p Your browser does not support iframes.
+
+template(name="pleaseLogin")
+  h2 Please Login ! 
+
+template(name="index")
+  h2 Please Choose the Analyzer:
+  ul
+    li IPyNB
+    li RStudio

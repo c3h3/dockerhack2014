@@ -4,8 +4,6 @@
 # but you can also edit it by hand.
 
 meteor-platform
-autopublish
-insecure
 coffeescript
 meteorhacks:npm
 iron:router
@@ -17,4 +15,3 @@ mizzao:bootstrap-3
 accounts-meetup
 accounts-ui
 http
-
