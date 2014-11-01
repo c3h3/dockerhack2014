@@ -11,14 +11,14 @@ template(name="navBar")
           span.icon-bar
           span.icon-bar
 
-        a.navbar-brand(href="/") Docker Data
+        a.navbar-brand(href="/") Docker Data Tutor
       .collapse.navbar-collapse
         ul.nav.navbar-nav
           li.nav.navbar-nav
-            a(href="{{pathFor 'shogun'}}") IPyNB
+            a(href="{{pathFor 'ipynb'}}") IPyNB
 
           li.nav.navbar-nav
-            a(href="{{pathFor 'shogun'}}") RStudio
+            a(href="{{pathFor 'rstudio'}}") RStudio
 
 
 
@@ -28,12 +28,16 @@ template(name="navBar")
           li
             +loginButtons
 
-template(name="shogunIndex")
+template(name="analyzer")
+  .container
+    a.goBt.btn.btn-default(href="http://10.255.252.206:{{ipynb.port}}") Go to {{name}} page  
+    br
   .container
     .tabbable
       .tab-pane.active
-        input.connectBt.btn.btn-default(value="Connect to IPyNB")
-        a.goBt.btn.btn-default(href="http://10.255.252.206:{{ipynb.port}}") Go to ipynb page  
+        
+
+        input.connectBt.btn.btn-default(value="Connect to {{name}}")        
         iframe#ipynbframe(src="", width="100%", height="550px")
           p Your browser does not support iframes.
 

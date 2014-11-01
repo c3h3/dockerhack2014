@@ -16,16 +16,17 @@ Meteor.startup ->
     
     @route "index",
       path: "/"
-      template: "shogunIndex"
+      template: "index"
       data:
         user: ->
           Meteor.user()
 
 
-    @route "shogun",
-      path: "shogun/"
-      template: "shogunIndex"
+    @route "ipynb",
+      path: "ipynb/"
+      template: "analyzer"
       data:
+        name: "ipynb"
         user: ->
           Meteor.user()
 
@@ -53,7 +54,36 @@ Meteor.startup ->
             Session.set "ipynb", data
 
 
+     @route "rstudio",
+      path: "rstudio/"
+      template: "analyzer"
+      data:
+        name: "rstudio"
+        user: ->
+          Meteor.user()
 
+        ipynb: ->
+          Session.get "ipynb"
+
+        # ipynbUrl: ->
+        #   ipynb = Session.get "ipynb"
+        #   console.log "ipynb = "
+        #   console.log ipynb
+        #   url = "http://10.255.252.206:"+ipynb.port+"/tree"
+        #   console.log url
+        #   url
+
+
+      waitOn: -> 
+        userId = Meteor.userId()
+        console.log "userId = "
+        console.log userId
+        if not userId 
+          Router.go "pleaseLogin"
+
+        Meteor.call "getRstudio", (err, data)->
+          if not err
+            Session.set "ipynb", data
 
     @route "pleaseLogin",
       path: "pleaseLogin/"
@@ -98,7 +128,7 @@ if Meteor.isServer
       docker = new Docker {socketPath: '/var/run/docker.sock'}
       fport = String(basePort + IPyNBs.find().count())
 
-      if IPyNBs.find({userId:user._id}).count() is 0
+      if IPyNBs.find({userId:user._id, type:"ipynb"}).count() is 0
         console.log "create new ipynb docker"
 
         ipynbData = 
@@ -111,7 +141,7 @@ if Meteor.isServer
 
         IPyNBs.insert ipynbData
 
-        docker.createContainer {Image: "c3h3/oblas-py278-shogun-ipynb", name:user._id}, (err, container) ->
+        docker.createContainer {Image: "c3h3/oblas-py278-shogun-ipynb", name:user._id+"_ipynb"}, (err, container) ->
           portBind = 
             "8888/tcp": [{"HostPort": fport}] 
           
@@ -123,10 +153,73 @@ if Meteor.isServer
       else
         console.log "ipynb docker is created"
 
-      IPyNBs.findOne {userId:user._id}
+      # Docker = Meteor.npmRequire "dockerode"
+      # docker = new Docker {socketPath: '/var/run/docker.sock'}
+      
+      # fport = String(basePort + IPyNBs.find().count())
 
+      # if IPyNBs.find({userId:user._id, type:"rstudio"}).count() is 0
+      #   console.log "create new ipynb docker"
+
+      #   ipynbData = 
+      #     userId: user._id
+      #     port: fport
+      #     type: "rstudio"
         
-            
+      #   console.log "ipynbData = "
+      #   console.log ipynbData
+
+      #   IPyNBs.insert ipynbData
+
+      #   docker.createContainer {Image: "rocker/rstudio", name:user._id+"_rstudio"}, (err, container) ->
+      #     portBind = 
+      #       "8787/tcp": [{"HostPort": fport}] 
+          
+      #     container.start {"PortBindings": portBind}, (err, data) -> 
+      #       console.log "data = "
+      #       console.log data
+
+
+      # else
+      #   console.log "ipynb docker is created"
+
+
+      IPyNBs.findOne {userId:user._id,type: "ipynb"}
+
+    "getRstudio": ->  
+      user = Meteor.user()
+      Docker = Meteor.npmRequire "dockerode"
+      docker = new Docker {socketPath: '/var/run/docker.sock'}
+      fport = String(basePort + IPyNBs.find().count())
+
+
+      if IPyNBs.find({userId:user._id, type:"rstudio"}).count() is 0
+        console.log "create new ipynb docker"
+
+        ipynbData = 
+          userId: user._id
+          port: fport
+          type: "rstudio"
+        
+        console.log "ipynbData = "
+        console.log ipynbData
+
+        IPyNBs.insert ipynbData
+
+        docker.createContainer {Image: "rocker/rstudio", name:user._id+"_rstudio"}, (err, container) ->
+          portBind = 
+            "8787/tcp": [{"HostPort": fport}] 
+          
+          container.start {"PortBindings": portBind}, (err, data) -> 
+            console.log "data = "
+            console.log data
+
+
+      else
+        console.log "ipynb docker is created"
+
+      IPyNBs.findOne {userId:user._id,type: "rstudio"}
+
 
 
 
