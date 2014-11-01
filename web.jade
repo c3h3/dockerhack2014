@@ -30,8 +30,10 @@ template(name="navBar")
 
 template(name="analyzer")
   .container
-    a.goBt.btn.btn-default(href="http://10.255.252.206:{{ipynb.port}}") Go to {{name}} page  
-    br
+    a.btn.btn-default(target="_blank",href="{{baseImageUrl}}") Base image on Docker Hub      
+    hr
+    a.goBt.btn.btn-default(target="_blank",href="http://10.255.252.206:{{ipynb.port}}") Go to {{name}} page  
+    hr
   .container
     .tabbable
       .tab-pane.active
@@ -49,3 +51,10 @@ template(name="index")
   ul
     li IPyNB
     li RStudio
+
+  h2 Reference
+  ul
+    li 
+      a(href="http://www.shogun-toolbox.org/") shogun
+    li
+      a(href="http://nbviewer.ipython.org/github/shogun-toolbox/shogun/blob/master/doc/ipython-notebooks/metric/LMNN.ipynb") LMNN demo ipynb

@@ -26,6 +26,7 @@ Meteor.startup ->
       path: "ipynb/"
       template: "analyzer"
       data:
+        baseImageUrl: "https://registry.hub.docker.com/u/c3h3/oblas-py278-shogun-ipynb/"
         name: "ipynb"
         user: ->
           Meteor.user()
@@ -58,6 +59,7 @@ Meteor.startup ->
       path: "rstudio/"
       template: "analyzer"
       data:
+        baseImageUrl: "https://registry.hub.docker.com/u/rocker/rstudio/"
         name: "rstudio"
         user: ->
           Meteor.user()
