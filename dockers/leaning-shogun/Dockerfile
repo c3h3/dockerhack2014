@@ -12,7 +12,7 @@ WORKDIR demo_ipynbs
 RUN pip install networkx
 RUN ipython profile create c3h3-dark
 
-ADD c3h3_custom.css /root/.ipython/profile_c3h3-dark/static/custom/custom.css
+ADD c3h3_custom.csss /root/.ipython/profile_c3h3-dark/static/custom/custom.css
 ADD ipython_notebook_config.py /root/.ipython/profile_c3h3-dark/ipython_notebook_config.py
 CMD ipython notebook --no-browser --ip=0.0.0.0 --port 8888 --profile=$IPYNB_PROFILE
 
