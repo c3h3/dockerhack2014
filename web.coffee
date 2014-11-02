@@ -225,6 +225,9 @@ if Meteor.isServer
       if not user
         throw new Meteor.Error(401, "You need to login")
 
+      if baseImage not in allowImages
+        throw new Meteor.Error(402, "Image is not allow")  
+
       Docker = Meteor.npmRequire "dockerode"
       docker = new Docker {socketPath: '/var/run/docker.sock'}
       fport = String(basePort + Dockers.find().count())
@@ -260,7 +263,7 @@ if Meteor.isServer
           if imageTag in ["ipynb","shogun"]
             portBind = 
               "8888/tcp": [{"HostPort": fport}] 
-          else if imageTag is ["rstudio", "dsc2014tutorial"]
+          else if imageTag in ["rstudio", "dsc2014tutorial"]
             portBind = 
               "8787/tcp": [{"HostPort": fport}] 
           
@@ -288,14 +291,19 @@ if Meteor.isServer
       fport = String(basePort + Dockers.find().count())
 
       baseImage = course.dockerImage
+      
 
       if baseImage not in allowImages
-        throw new Meteor.Error(402, "Image is not allow")        
+        throw new Meteor.Error(402, "Image is not allow")  
 
       if baseImage is "c3h3/oblas-py278-shogun-ipynb"
         imageTag = "ipynb"
       else if baseImage is "rocker/rstudio"
         imageTag = "rstudio"
+      else if baseImage is "c3h3/learning-shogun"
+        imageTag = "shogun"
+      else if baseImage is "c3h3/dsc2014tutorial"
+        imageTag = "dsc2014tutorial"
 
       dockerData = 
         userId: user._id
@@ -316,10 +324,10 @@ if Meteor.isServer
         Dockers.insert dockerData
 
         docker.createContainer {Image: dockerData.baseImage, name:dockerData.name}, (err, container) ->
-          if imageTag is "ipynb"
+          if imageTag in ["ipynb","shogun"]
             portBind = 
               "8888/tcp": [{"HostPort": fport}] 
-          else if imageTag is "rstudio"
+          else if imageTag in ["rstudio", "dsc2014tutorial"]
             portBind = 
               "8787/tcp": [{"HostPort": fport}] 
           
