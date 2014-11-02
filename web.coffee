@@ -72,8 +72,8 @@ Meteor.startup ->
         user: ->
           Meteor.user()
 
-        ipynb: ->
-          Session.get "ipynb"
+        docker: ->
+          Session.get "docker"
 
 
       waitOn: -> 
@@ -83,9 +83,9 @@ Meteor.startup ->
         if not userId 
           Router.go "pleaseLogin"
 
-        Meteor.call "getDockers", (err, data)->
+        Meteor.call "getDockers", "c3h3/oblas-py278-shogun-ipynb", (err, data)->
           if not err
-            Session.set "ipynb", data
+            Session.set "docker", data
 
         # Meteor.call "updateDockers"
 
@@ -100,8 +100,8 @@ Meteor.startup ->
         user: ->
           Meteor.user()
 
-        ipynb: ->
-          Session.get "ipynb"
+        docker: ->
+          Session.get "docker"
 
       waitOn: -> 
         userId = Meteor.userId()
@@ -110,9 +110,9 @@ Meteor.startup ->
         if not userId 
           Router.go "pleaseLogin"
 
-        Meteor.call "getRstudio", (err, data)->
+        Meteor.call "getDockers", "rocker/rstudio", (err, data)->
           if not err
-            Session.set "ipynb", data
+            Session.set "docker", data
 
         # Meteor.call "updateDockers"
 
@@ -126,8 +126,8 @@ if Meteor.isClient
   Template.analyzer.events
     "click .connectBt": (e, t)->
       e.stopPropagation()
-      ipynb = Session.get "ipynb"
-      url = "http://"+rootURL+":"+ipynb.port
+      docker = Session.get "docker"
+      url = "http://"+rootURL+":"+docker.port
       
       $("#ipynbframe").attr 'src', url
 
@@ -158,7 +158,7 @@ if Meteor.isServer
   @tmpData = []
   
 
-  Meteor.publish "ipynb", ->
+  Meteor.publish "dockers", ->
     userId = Meteor.userId()
 
     if not userId
@@ -193,7 +193,7 @@ if Meteor.isServer
     #       Dockers.update {name:c.Names[0].replace("/","")}, {$set:{containerId:c.Id}} 
 
 
-    "getDockers": -> 
+    "getDockers": (baseImage) -> 
       user = Meteor.user()
       if not user
         throw new Meteor.Error(401, "You need to login")
@@ -202,86 +202,47 @@ if Meteor.isServer
       docker = new Docker {socketPath: '/var/run/docker.sock'}
       fport = String(basePort + Dockers.find().count())
 
-      if Dockers.find({userId:user._id, type:"ipynb"}).count() is 0
-        console.log "create new ipynb docker"
+      if baseImage is "c3h3/oblas-py278-shogun-ipynb"
+        imageTag = "ipynb"
+      else if baseImage is "rocker/rstudio"
+        imageTag = "rstudio"
 
-        ipynbData = 
-          userId: user._id
-          port: fport
-          type: "ipynb"
-        
-        console.log "ipynbData = "
-        console.log ipynbData
+      dockerData = 
+        userId: user._id
+        port: fport
+        baseImage: baseImage
+        name:user._id+"_"+imageTag
 
-        Dockers.insert ipynbData
+      console.log "dockerData = "
+      console.log dockerData
 
-        docker.createContainer {Image: "c3h3/oblas-py278-shogun-ipynb", name:user._id+"_ipynb"}, (err, container) ->
-          portBind = 
-            "8888/tcp": [{"HostPort": fport}] 
-          
-          container.start {"PortBindings": portBind}, (err, data) -> 
-            console.log "data = "
-            console.log data
+      dockerQuery = 
+        userId:dockerData.userId
+        baseImage:dockerData.baseImage
 
-
-      else
-        console.log "ipynb docker is created"
-
-      Dockers.findOne {userId:user._id,type: "ipynb"}
-
-    "getRstudio": ->  
-      user = Meteor.user()
-      if not user
-        throw new Meteor.Error(401, "You need to login")
-
-      Docker = Meteor.npmRequire "dockerode"
-      docker = new Docker {socketPath: '/var/run/docker.sock'}
-      fport = String(basePort + Dockers.find().count())
-
-
-      if Dockers.find({userId:user._id, type:"rstudio"}).count() is 0
-        console.log "create new ipynb docker"
-
-        dockerData = 
-          userId: user._id
-          port: fport
-          baseImage: "rocker/rstudio"
-          name:user._id+"_rstudio"
-
-        console.log "dockerData = "
-        console.log dockerData
+      if Dockers.find(dockerQuery).count() is 0
+        console.log "create new docker instance"
 
         Dockers.insert dockerData
-        
-        docker.createContainer {Image: dockerData.baseImage, name:dockerData.name}, (err, container) ->
-          # console.log "container = "
-          # console.log container
-          # dockerData["containerId"] = container.id
 
-          portBind = 
-            "8787/tcp": [{"HostPort": fport}] 
+        docker.createContainer {Image: dockerData.baseImage, name:dockerData.name}, (err, container) ->
+          if imageTag is "ipynb"
+            portBind = 
+              "8888/tcp": [{"HostPort": fport}] 
+          else if imageTag is "rstudio"
+            portBind = 
+              "8787/tcp": [{"HostPort": fport}] 
           
+            
           container.start {"PortBindings": portBind}, (err, data) -> 
             console.log "data = "
             console.log data
 
-        # console.log "dockerData = "
-        # console.log dockerData
-
 
       else
-        console.log "ipynb docker is created"
+        console.log "docker is created"
 
-      Dockers.findOne {userId:user._id,type: "rstudio"}
-
-
-
-
-
-
-           
-
-
+      Dockers.findOne dockerQuery
 
 
   Accounts.onCreateUser (options, user) ->

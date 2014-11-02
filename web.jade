@@ -92,14 +92,14 @@ template(name="analyzer")
   .container
     a.btn.btn-default(target="_blank",href="{{baseImageUrl}}") Base image on Docker Hub      
     hr
-    a.goBt.btn.btn-default(target="_blank",href="http://{{rootURL}}:{{ipynb.port}}") Go to {{name}} page  
+    a.goBt.btn.btn-default(target="_blank",href="http://{{rootURL}}:{{docker.port}}") Go to {{name}} page  
     hr
   .container
     .tabbable
       .tab-pane.active
         
 
-        input.connectBt.btn.btn-default(value="Connect to {{name}}")        
+        input.connectBt.btn.btn-default(value="Try {{name}}")        
         iframe#ipynbframe(src="", width="100%", height="550px", scrolling="auto")
           p Your browser does not support iframes.
 
