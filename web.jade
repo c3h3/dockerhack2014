@@ -11,7 +11,7 @@ template(name="navBar")
           span.icon-bar
           span.icon-bar
 
-        a.navbar-brand(href="/") Docker Data Tutor
+        a.navbar-brand(href="/") Learning Data with Docker!
       .collapse.navbar-collapse
         ul.nav.navbar-nav
           li.nav.navbar-nav
@@ -19,6 +19,10 @@ template(name="navBar")
 
           li.nav.navbar-nav
             a(href="{{pathFor 'rstudio'}}") RStudio
+
+          li.nav.navbar-nav
+            a(href="{{pathFor 'courses'}}") Courses
+
 
 
 
@@ -28,11 +32,67 @@ template(name="navBar")
           li
             +loginButtons
 
+
+template(name="course")
+  .container
+    .row.clearfix
+      .col-md-12.column
+        h2 {{course.courseName}}
+        h2 {{course.dockerImage}}
+        h2 {{course.slides}}
+        h2 {{course.description}}
+        h2 {{course.creatorName}}
+        iframe#slides(src="{{course.slides}}", width="100%", height="550px", scrolling="auto")
+       
+
+
+
+template(name="courses")
+  .container
+    .row.clearfix
+      .col-md-12.column
+        table.table.table-hover
+          thead
+            th Name
+            th Docker
+            th Slides / Notes
+            th Description
+            th Creator's Name
+            th Create / Delete
+          tbody
+            if isCreator
+              tr
+                td 
+                  input.courseName
+                td
+                  input.dockerImage
+                td
+                  input.slides
+                td
+                  input.description
+                td
+                  p {{user.profile.name}}    
+                td
+                  input.createBt.btn.btn-default(value="Create")
+
+            each courses
+              tr
+                td 
+                  a(href="{{pathFor 'course' cid=_id}}") {{courseName}}
+                td {{dockerImage}}
+                td {{slides}}
+                td {{description}}
+                td {{creatorName}}
+                td unfeatured 
+
+
+
+
 template(name="analyzer")
   .container
     a.btn.btn-default(target="_blank",href="{{baseImageUrl}}") Base image on Docker Hub      
     hr
-    a.goBt.btn.btn-default(target="_blank",href="http://10.255.252.206:{{ipynb.port}}") Go to {{name}} page  
+    a.goBt.btn.btn-default(target="_blank",href="http://{{rootURL}}:{{ipynb.port}}") Go to {{name}} page  
     hr
   .container
     .tabbable
@@ -40,21 +100,23 @@ template(name="analyzer")
         
 
         input.connectBt.btn.btn-default(value="Connect to {{name}}")        
-        iframe#ipynbframe(src="", width="100%", height="550px")
+        iframe#ipynbframe(src="", width="100%", height="550px", scrolling="auto")
           p Your browser does not support iframes.
 
 template(name="pleaseLogin")
-  h2 Please Login ! 
+  .container
+    h2 Please Login ! 
 
 template(name="index")
-  h2 Please Choose the Analyzer:
-  ul
-    li IPyNB
-    li RStudio
+  .container
+    h2 Please Choose the Analyzer:
+    ul
+      li IPyNB
+      li RStudio
 
-  h2 Reference
-  ul
-    li 
-      a(href="http://www.shogun-toolbox.org/") shogun
-    li
-      a(href="http://nbviewer.ipython.org/github/shogun-toolbox/shogun/blob/master/doc/ipython-notebooks/metric/LMNN.ipynb") LMNN demo ipynb
+    h2 Reference
+    ul
+      li 
+        a(href="http://www.shogun-toolbox.org/") shogun
+      li
+        a(href="http://nbviewer.ipython.org/github/shogun-toolbox/shogun/blob/master/doc/ipython-notebooks/metric/LMNN.ipynb") LMNN demo ipynb
