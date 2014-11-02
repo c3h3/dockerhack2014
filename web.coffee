@@ -1,5 +1,5 @@
 
-@rootURL = "192.168.1.241"
+@rootURL = "0.0.0.0"
 
 @Courses = new Meteor.Collection "courses"
 

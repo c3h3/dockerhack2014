@@ -1,0 +1,1 @@
+install.packages('DSC2014Tutorial', repo = c('http://taiwanrusergroup.github.io/R', "http://cran.csie.ntu.edu.tw"), type = 'source')
