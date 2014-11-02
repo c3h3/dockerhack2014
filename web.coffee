@@ -5,7 +5,7 @@
 
 @Dockers = new Meteor.Collection "dockers"
 
-@courseCreator = ["W8ry5vcMNY2GhukHA"]
+@courseCreator = ["W8ry5vcMNY2GhukHA","JESWJnrYeBvB35brZ"]
 
 Router.configure
   layoutTemplate: 'layout'
