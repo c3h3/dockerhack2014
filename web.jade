@@ -36,14 +36,18 @@ template(name="navBar")
 template(name="course")
   .container
     .row.clearfix
+      //- .col-md-6.column
+        
       .col-md-12.column
-        h2 {{course.courseName}}
-        h2 {{course.dockerImage}}
-        h2 {{course.slides}}
-        h2 {{course.description}}
-        h2 {{course.creatorName}}
+        hr
+        h2 Slides: 
         iframe#slides(src="{{course.slides}}", width="100%", height="550px", scrolling="auto")
-       
+        
+        hr
+        h2 Docker:
+        //- input.connectBt.btn.btn-default(value="Try Docker Instance:")        
+        iframe#docker(src="http://{{rootURL}}:{{docker.port}}", width="100%", height="550px", scrolling="yes")
+
 
 
 
@@ -90,17 +94,16 @@ template(name="courses")
 
 template(name="analyzer")
   .container
-    a.btn.btn-default(target="_blank",href="{{baseImageUrl}}") Base image on Docker Hub      
+    a.btn.btn-default(target="_blank",href="{{baseImageUrl}}") Browse Base Image ({{docker.baseImage}}) on Docker Hub      
     hr
-    a.goBt.btn.btn-default(target="_blank",href="http://{{rootURL}}:{{docker.port}}") Go to {{name}} page  
-    hr
+    //- a.goBt.btn.btn-default(target="_blank",href="http://{{rootURL}}:{{docker.port}}") Go to {{name}} page  
+    //- hr
   .container
     .tabbable
       .tab-pane.active
         
-
-        input.connectBt.btn.btn-default(value="Try {{name}}")        
-        iframe#ipynbframe(src="", width="100%", height="550px", scrolling="auto")
+        //- input.connectBt.btn.btn-default(value="Try {{name}}")        
+        iframe#docker(src="http://{{rootURL}}:{{docker.port}}", width="100%", height="550px", scrolling="yes")
           p Your browser does not support iframes.
 
 template(name="pleaseLogin")

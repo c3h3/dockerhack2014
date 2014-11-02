@@ -46,21 +46,39 @@ Meteor.startup ->
       path: "course/:cid"
       template: "course"
       data:
+        rootURL:rootURL
         user: ->
           Meteor.user()
         course: ->
           cid = Session.get "cid"
           Courses.findOne _id: cid
+
+        hasSlides: ->
+          cid = Session.get "cid"
+          c = Courses.findOne _id: cid
+          console.log "c = "
+          console.log c
+          console.log cid
+          c.slides isnt ""
+        docker: ->
+          Session.get "docker"
+
+
       waitOn: -> 
         userId = Meteor.userId()
         console.log "userId = "
         console.log userId
         if not userId 
           Router.go "pleaseLogin"
+
         Meteor.subscribe "allCourses"
         Session.set "cid", @params.cid
 
-    
+        Meteor.call "getCourseDocker", @params.cid, (err, data)->
+          if not err
+            Session.set "docker", data
+
+        
 
     @route "ipynb",
       path: "ipynb/"
@@ -123,13 +141,22 @@ Meteor.startup ->
 
 
 if Meteor.isClient
-  Template.analyzer.events
-    "click .connectBt": (e, t)->
-      e.stopPropagation()
-      docker = Session.get "docker"
-      url = "http://"+rootURL+":"+docker.port
+  # Template.course.events
+  #   "click .connectBt": (e, t)->
+  #     e.stopPropagation()
+  #     docker = Session.get "docker"
+  #     url = "http://"+rootURL+":"+docker.port
       
-      $("#ipynbframe").attr 'src', url
+  #     $("#docker").attr 'src', url
+
+
+  # Template.analyzer.events
+  #   "click .connectBt": (e, t)->
+  #     e.stopPropagation()
+  #     docker = Session.get "docker"
+  #     url = "http://"+rootURL+":"+docker.port
+      
+  #     $("#docker").attr 'src', url
 
   Template.courses.events
     "click input.createBt": (e,t) ->
@@ -155,7 +182,7 @@ if Meteor.isClient
 
 if Meteor.isServer
   @basePort = 8000
-  @tmpData = []
+  @allowImages = ["c3h3/oblas-py278-shogun-ipynb", "rocker/rstudio"]
   
 
   Meteor.publish "dockers", ->
@@ -244,6 +271,64 @@ if Meteor.isServer
 
       Dockers.findOne dockerQuery
 
+    "getCourseDocker": (courseId) -> 
+      user = Meteor.user()
+      if not user
+        throw new Meteor.Error(401, "You need to login")
+
+      course = Courses.findOne _id:courseId
+
+
+      Docker = Meteor.npmRequire "dockerode"
+      docker = new Docker {socketPath: '/var/run/docker.sock'}
+      fport = String(basePort + Dockers.find().count())
+
+      baseImage = course.dockerImage
+
+      if baseImage not in allowImages
+        throw new Meteor.Error(402, "Image is not allow")        
+
+      if baseImage is "c3h3/oblas-py278-shogun-ipynb"
+        imageTag = "ipynb"
+      else if baseImage is "rocker/rstudio"
+        imageTag = "rstudio"
+
+      dockerData = 
+        userId: user._id
+        port: fport
+        baseImage: baseImage
+        name:user._id+"_"+imageTag
+
+      console.log "dockerData = "
+      console.log dockerData
+
+      dockerQuery = 
+        userId:dockerData.userId
+        baseImage:dockerData.baseImage
+
+      if Dockers.find(dockerQuery).count() is 0
+        console.log "create new docker instance"
+
+        Dockers.insert dockerData
+
+        docker.createContainer {Image: dockerData.baseImage, name:dockerData.name}, (err, container) ->
+          if imageTag is "ipynb"
+            portBind = 
+              "8888/tcp": [{"HostPort": fport}] 
+          else if imageTag is "rstudio"
+            portBind = 
+              "8787/tcp": [{"HostPort": fport}] 
+          
+            
+          container.start {"PortBindings": portBind}, (err, data) -> 
+            console.log "data = "
+            console.log data
+
+
+      else
+        console.log "docker is created"
+
+      Dockers.findOne dockerQuery
 
   Accounts.onCreateUser (options, user) ->
 
