@@ -75,14 +75,6 @@ Meteor.startup ->
         ipynb: ->
           Session.get "ipynb"
 
-        # ipynbUrl: ->
-        #   ipynb = Session.get "ipynb"
-        #   console.log "ipynb = "
-        #   console.log ipynb
-        #   url = "http://10.255.252.206:"+ipynb.port+"/tree"
-        #   console.log url
-        #   url
-
 
       waitOn: -> 
         userId = Meteor.userId()
@@ -94,6 +86,8 @@ Meteor.startup ->
         Meteor.call "getDockers", (err, data)->
           if not err
             Session.set "ipynb", data
+
+        # Meteor.call "updateDockers"
 
 
      @route "rstudio",
@@ -109,15 +103,6 @@ Meteor.startup ->
         ipynb: ->
           Session.get "ipynb"
 
-        # ipynbUrl: ->
-        #   ipynb = Session.get "ipynb"
-        #   console.log "ipynb = "
-        #   console.log ipynb
-        #   url = "http://10.255.252.206:"+ipynb.port+"/tree"
-        #   console.log url
-        #   url
-
-
       waitOn: -> 
         userId = Meteor.userId()
         console.log "userId = "
@@ -128,6 +113,8 @@ Meteor.startup ->
         Meteor.call "getRstudio", (err, data)->
           if not err
             Session.set "ipynb", data
+
+        # Meteor.call "updateDockers"
 
     @route "pleaseLogin",
       path: "pleaseLogin/"
@@ -168,6 +155,7 @@ if Meteor.isClient
 
 if Meteor.isServer
   @basePort = 8000
+  @tmpData = []
   
 
   Meteor.publish "ipynb", ->
@@ -194,6 +182,16 @@ if Meteor.isServer
       courseData["creatorAt"] = new Date
 
       Courses.insert courseData
+    
+    # "updateDockers": ->
+    #   Docker = Meteor.npmRequire "dockerode"
+    #   docker = new Docker {socketPath: '/var/run/docker.sock'}
+    #   docker.listContainers all: false, (err, containers) ->  
+    #     for c in containers
+    #       console.log "c = "
+    #       console.log c
+    #       Dockers.update {name:c.Names[0].replace("/","")}, {$set:{containerId:c.Id}} 
+
 
     "getDockers": -> 
       user = Meteor.user()
@@ -244,19 +242,21 @@ if Meteor.isServer
       if Dockers.find({userId:user._id, type:"rstudio"}).count() is 0
         console.log "create new ipynb docker"
 
-        ipynbData = 
+        dockerData = 
           userId: user._id
           port: fport
-          type: "rstudio"
+          baseImage: "rocker/rstudio"
+          name:user._id+"_rstudio"
+
+        console.log "dockerData = "
+        console.log dockerData
+
+        Dockers.insert dockerData
         
-        console.log "ipynbData = "
-        console.log ipynbData
-
-        Dockers.insert ipynbData
-
-        docker.createContainer {Image: "rocker/rstudio", name:user._id+"_rstudio"}, (err, container) ->
-          console.log "container = "
-          console.log container
+        docker.createContainer {Image: dockerData.baseImage, name:dockerData.name}, (err, container) ->
+          # console.log "container = "
+          # console.log container
+          # dockerData["containerId"] = container.id
 
           portBind = 
             "8787/tcp": [{"HostPort": fport}] 
@@ -264,6 +264,9 @@ if Meteor.isServer
           container.start {"PortBindings": portBind}, (err, data) -> 
             console.log "data = "
             console.log data
+
+        # console.log "dockerData = "
+        # console.log dockerData
 
 
       else
