@@ -53,13 +53,6 @@ Meteor.startup ->
           cid = Session.get "cid"
           Courses.findOne _id: cid
 
-        hasSlides: ->
-          cid = Session.get "cid"
-          c = Courses.findOne _id: cid
-          console.log "c = "
-          console.log c
-          console.log cid
-          c.slides isnt ""
         docker: ->
           Session.get "docker"
 
