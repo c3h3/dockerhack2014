@@ -182,7 +182,7 @@ if Meteor.isClient
 
 if Meteor.isServer
   @basePort = 8000
-  @allowImages = ["c3h3/oblas-py278-shogun-ipynb", "rocker/rstudio"]
+  @allowImages = ["c3h3/oblas-py278-shogun-ipynb", "c3h3/learning-shogun", "rocker/rstudio", "c3h3/dsc2014tutorial"]
   
 
   Meteor.publish "dockers", ->
@@ -233,6 +233,10 @@ if Meteor.isServer
         imageTag = "ipynb"
       else if baseImage is "rocker/rstudio"
         imageTag = "rstudio"
+      else if baseImage is "c3h3/learning-shogun"
+        imageTag = "shogun"
+      else if baseImage is "c3h3/dsc2014tutorial"
+        imageTag = "dsc2014tutorial"
 
       dockerData = 
         userId: user._id
@@ -253,10 +257,10 @@ if Meteor.isServer
         Dockers.insert dockerData
 
         docker.createContainer {Image: dockerData.baseImage, name:dockerData.name}, (err, container) ->
-          if imageTag is "ipynb"
+          if imageTag in ["ipynb","shogun"]
             portBind = 
               "8888/tcp": [{"HostPort": fport}] 
-          else if imageTag is "rstudio"
+          else if imageTag is ["rstudio", "dsc2014tutorial"]
             portBind = 
               "8787/tcp": [{"HostPort": fport}] 
           
