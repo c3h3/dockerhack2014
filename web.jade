@@ -56,8 +56,12 @@ template(name="about")
         h1 Technologies in this project ... 
         ul
           li
-            h3 Docker
-            h3 Meteor
+            h3 
+              a(href="https://www.docker.com/") Docker
+          li  
+            h3 
+              a(href="https://www.meteor.com/") Meteor
+          li  
             h3 Google Computer Engine
         
 
@@ -92,18 +96,15 @@ template(name="howToUse")
         h1 How to use it NOW?
         ul
           li
-            h2 Try it directly ... 
-            ul
-              li
-                h3 
-                  a(href="{{pathFor 'ipynb'}}") IPython Notebook 
-              li
-                h3 
-                  a(href="{{pathFor 'rstudio'}}") RStudio
-                h4 Account: studio / Password: rstudio
+            h3 
+              a(href="{{pathFor 'ipynb'}}") IPython Notebook 
           li
-            h2 
-              a(href="{{pathFor 'courses'}}") Learning from Study Materials
+            h3 
+              a(href="{{pathFor 'rstudio'}}") Try RStudio
+              h4 Account: studio / Password: rstudio
+          li
+            h3 
+              a(href="{{pathFor 'courses'}}") Try Learning from Study Materials
 
         h1 In the future ... 
         ul
