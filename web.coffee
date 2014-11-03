@@ -22,6 +22,15 @@ Meteor.startup ->
         user: ->
           Meteor.user()
 
+    @route "about",
+      path: "about/"
+      template: "about"
+      data:
+        rootURL:rootURL
+        user: ->
+          Meteor.user()
+
+
     @route "howToUse",
       path: "howToUse/"
       template: "howToUse"
@@ -143,22 +152,26 @@ Meteor.startup ->
 
 
 if Meteor.isClient
-  # Template.course.events
-  #   "click .connectBt": (e, t)->
-  #     e.stopPropagation()
-  #     docker = Session.get "docker"
-  #     url = "http://"+rootURL+":"+docker.port
+  Template.course.events
+    "click .connectBt": (e, t)->
+      e.stopPropagation()
+      $("#docker").attr 'src', ""
+
+      docker = Session.get "docker"
+      url = "http://"+rootURL+":"+docker.port
       
-  #     $("#docker").attr 'src', url
+      $("#docker").attr 'src', url
 
 
-  # Template.analyzer.events
-  #   "click .connectBt": (e, t)->
-  #     e.stopPropagation()
-  #     docker = Session.get "docker"
-  #     url = "http://"+rootURL+":"+docker.port
+  Template.analyzer.events
+    "click .connectBt": (e, t)->
+      e.stopPropagation()
+      $("#docker").attr 'src', ""
       
-  #     $("#docker").attr 'src', url
+      docker = Session.get "docker"
+      url = "http://"+rootURL+":"+docker.port
+      
+      $("#docker").attr 'src', url
 
   Template.courses.events
     "click input.createBt": (e,t) ->

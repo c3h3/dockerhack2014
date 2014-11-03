@@ -15,6 +15,9 @@ template(name="navBar")
       .collapse.navbar-collapse
         ul.nav.navbar-nav
           li.nav.navbar-nav
+            a(href="{{pathFor 'about'}}") About
+
+          li.nav.navbar-nav
             a(href="{{pathFor 'howToUse'}}") How to use it ?
 
           li.nav.navbar-nav
@@ -33,13 +36,100 @@ template(name="navBar")
 
         ul.nav.navbar-nav.navbar-right
           li.nav.navbar-nav
-            img(src="{{user.profile.photo.thumb_link}}")
+            img.img-circle(src="{{user.profile.photo.thumb_link}}",style="margin-right:10px")
           li
             +loginButtons
 
 
+template(name="about")
+  .container
+    .row.clearfix
+      .col-md-6.column
+        h1 Motivation
+        p Because our community hold MLDM Monday event (MLDM stands for Machine Learning and Data Mining) every week in Taipei, 
+          | some of events were in tutorial forms. In those tutorial events, 
+          | we found the most difficult thing which barriered students to hands on the programs is 
+          | the environment synchronization! 
+        i Some codes could be executed in teacher's computer, but could not in student's. 
+        p Fortunately, we meet docker ......
+
+        h1 Technologies in this project ... 
+        ul
+          li
+            h3 Docker
+            h3 Meteor
+            h3 Google Computer Engine
+        
+
+
+      .col-md-6.column
+        h1 Dockerfiles in this project ... 
+        ul
+          li 
+            h3 
+              a(target="_blank",href="https://registry.hub.docker.com/u/c3h3/oblas-py278-shogun-ipynb/") c3h3/oblas-py278-shogun-ipynb
+            p (used in Try IPyNB)
+          li 
+            h3 
+              a(target="_blank",href="https://registry.hub.docker.com/u/rocker/rstudio/") rocker/rstudio
+            p (used in Try RStudio)
+
+          li 
+            h3 
+              a(target="_blank",href="https://registry.hub.docker.com/u/c3h3/learning-shogun") c3h3/learning-shogun
+            p (used in learning shogun)
+
+          li 
+            h3 
+              a(target="_blank",href="https://registry.hub.docker.com/u/c3h3/dsc2014tutorial") c3h3/dsc2014tutorial
+            p (used in DSC2014Tutorial Series)
+
+
 template(name="howToUse")
-  h2 how to use?
+  .container
+    .row.clearfix
+      .col-md-6.column
+        h1 How to use it NOW?
+        ul
+          li
+            h2 Try it directly ... 
+            ul
+              li
+                h3 
+                  a(href="{{pathFor 'ipynb'}}") IPython Notebook 
+              li
+                h3 
+                  a(href="{{pathFor 'rstudio'}}") RStudio
+                h4 Account: studio / Password: rstudio
+          li
+            h2 
+              a(href="{{pathFor 'courses'}}") Learning from Study Materials
+
+        h1 In the future ... 
+        ul
+          li
+            h3 (As a teacher who can) Create Study Materiarls & Create Docker Images & Upload them Up
+            
+          li
+            h3 (As a teacher who can) Manage students' resources and docker instances 
+            
+          
+      .col-md-6.column
+        h1 Please DON'T Do ...
+        h4 (Because you are the root on each docker instance ... )
+        ul
+          li 
+            h2 DON'T ATTACT ME ... 
+            h3 ( please ~~~ )
+          li 
+            h2 DON'T USE IMAGE TO ATTACT OTHERS ... 
+            h3 ( please ~~~ )
+          li 
+            h2 DON'T USE TOO MANY MEMORY AND CPU  ... 
+            h3 ( please leave some resources to others ~~~ )
+          li 
+            h2 DON'T DONWLOAD TOO LARGE DATASET  ... 
+            h3 ( please leave some resources to others ~~~ )
 
 template(name="course")
   .container
@@ -50,7 +140,7 @@ template(name="course")
         
         hr
         h2 Docker:
-        //- input.connectBt.btn.btn-default(value="Try Docker Instance:")        
+        input.connectBt.btn.btn-default(value="Try Docker Instance:")        
         iframe#docker(src="http://{{rootURL}}:{{docker.port}}", width="100%", height="550px", scrolling="yes")
 
         hr
@@ -114,7 +204,7 @@ template(name="analyzer")
     .tabbable
       .tab-pane.active
         
-        //- input.connectBt.btn.btn-default(value="Try {{name}}")        
+        input.connectBt.btn.btn-default(value="Connect to Docker")        
         iframe#docker(src="http://{{rootURL}}:{{docker.port}}", width="100%", height="550px", scrolling="yes")
           p Your browser does not support iframes.
 

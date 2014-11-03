@@ -4,4 +4,6 @@ body {
 
 .login-display-name {
 	color: #777;
+	display: none !important;
+	
 }
