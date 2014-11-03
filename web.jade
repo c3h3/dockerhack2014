@@ -61,12 +61,16 @@ template(name="about")
           li  
             h3 
               a(href="https://www.meteor.com/") Meteor
+          li
+            h3 
+              a(href="https://github.com/apocas/dockerode") dockerode
           li  
-            h3 Google Computer Engine
+            h3 
+              a(href="https://cloud.google.com/compute/") Google Computer Engine
         
 
-
       .col-md-6.column
+        
         h1 Dockerfiles in this project ... 
         ul
           li 
@@ -88,11 +92,21 @@ template(name="about")
               a(target="_blank",href="https://registry.hub.docker.com/u/c3h3/dsc2014tutorial") c3h3/dsc2014tutorial
             p (used in DSC2014Tutorial Series)
 
+        h1 Fetures In the future ... 
+        ul
+          li
+            h3 Create Study Materials & Create Docker Images & Upload them Up
+            
+          li
+            h3 Manage students' resources and docker instances 
+            
+        
 
 template(name="howToUse")
   .container
     .row.clearfix
       .col-md-6.column
+        
         h1 How to use it NOW?
         ul
           li
@@ -106,14 +120,9 @@ template(name="howToUse")
             h3 
               a(href="{{pathFor 'courses'}}") Try Learning from Study Materials
 
-        h1 In the future ... 
-        ul
-          li
-            h3 (As a teacher who can) Create Study Materials & Create Docker Images & Upload them Up
-            
-          li
-            h3 (As a teacher who can) Manage students' resources and docker instances 
-            
+        h1 Video
+        iframe#ytplayer(type="text/html",width="100%", height="400px",src="http://www.youtube.com/embed/f1IAuMTUD2k",frameborder="0",allowfullscreen)
+
           
       .col-md-6.column
         h1 Please DON'T Do ...
