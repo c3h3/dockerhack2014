@@ -15,15 +15,20 @@ template(name="navBar")
       .collapse.navbar-collapse
         ul.nav.navbar-nav
           li.nav.navbar-nav
-            a(href="{{pathFor 'ipynb'}}") IPyNB
+            a(href="{{pathFor 'ipynb'}}") How to use it ?
 
           li.nav.navbar-nav
-            a(href="{{pathFor 'rstudio'}}") RStudio
+            a(href="{{pathFor 'ipynb'}}") Try IPyNB
+
+          li.nav.navbar-nav
+            a(href="{{pathFor 'rstudio'}}") Try RStudio
 
           li.nav.navbar-nav
             a(href="{{pathFor 'courses'}}") Study Materials
 
-
+          li.nav.navbar-nav
+            a(target="_blank",href="http://blog.docker.com/2014/10/announcing-docker-global-hack-day-2/") Docker Hack 2014
+            
 
 
         ul.nav.navbar-nav.navbar-right
@@ -116,14 +121,58 @@ template(name="pleaseLogin")
 
 template(name="index")
   .container
-    h2 Please Choose the Analyzer:
-    ul
-      li IPyNB
-      li RStudio
+    .row.clearfix
+      .col-md-6.column
+        h1 Running Dockers directly! 
+        h2 Mining Data immediately !
+        h3 You don't need to be cooped in different operation systems anymore! 
+        h3 Needn't spend a lot of time to synchronize environments !
+        h3 Spend most of time playing data!
 
-    h2 Reference
-    ul
-      li 
-        a(href="http://www.shogun-toolbox.org/") shogun
-      li
-        a(href="http://nbviewer.ipython.org/github/shogun-toolbox/shogun/blob/master/doc/ipython-notebooks/metric/LMNN.ipynb") LMNN demo ipynb
+
+
+      .col-md-1.column
+      .col-md-5.column
+
+        img(src="https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/10574319_349490885204086_5397070236425947603_n.jpg?oh=7edbf9c82114fb9b3ff13d0b8cb8295c&oe=54E7AA6D&__gda__=1420486151_73c7713cd908c8193a458b7528063af2",style="width:100%")
+  
+  .container
+    .row.clearfix
+      .col-md-5.column
+        img(src="https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-xfp1/v/t1.0-9/10561820_346961382123703_7933261843675077877_n.jpg?oh=8d8928e1990fd1560a50258a22adb700&oe=54E8D6AB&__gda__=1423953442_b6d26f0a4ead48dc23bdbee427367152",style="width:100%")        
+      .col-md-1.column
+      .col-md-6.column
+        h1 In a tutorial event, the most painful thing ... is ...
+        ul
+          li
+            h2 (for teacher) is to synchronize everyone's environment!
+          li
+            h2 (for student) is "the programs could not be run in my computer, but it runs on teacher's!"
+        
+
+  .container
+    .row.clearfix
+      .col-md-6.column
+        h2 Particular Thanks:
+        ul
+          li
+            h3
+              a(target="_blank", href="http://www.meetup.com/Taiwan-R/") Taiwan R User Group / MLDM Monday
+ 
+            p which is the largest data mining community in Taiwan. They also host a two-day tutorial session in the Data Science Conference 2014 (Taiwan). 
+            a(href="{{pathFor 'courses'}}") (see more on study material) 
+          li
+            h3 
+              a(target="_blank", href="http://www.meetup.com/Docker-Taipei/") Docker Taipei Community
+
+          li
+            h3 
+              a(target="_blank", href="https://www.slidenow.com/slides") SlideNow!
+            p The most easy slides editor, most fancy slides platform. They use a lot of dockers' technology in their infrastructure, and give me lots of help in this hackathon.
+
+      .col-md-1.column
+      .col-md-5.column
+
+        img(src="https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10538054_352644551555386_9147449871248555130_n.jpg?oh=d099265163398f0773c055fce6f32912&oe=54DA6196&__gda__=1423723338_2746cbadaf67d6b5488bdb362a2d3c50",style="width:100%")
+  
+  
