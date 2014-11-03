@@ -22,6 +22,15 @@ Meteor.startup ->
         user: ->
           Meteor.user()
 
+    @route "howToUse",
+      path: "howToUse/"
+      template: "howToUse"
+      data:
+        rootURL:rootURL
+        user: ->
+          Meteor.user()
+
+
     @route "courses",
       path: "courses/"
       template: "courses"

@@ -15,7 +15,7 @@ template(name="navBar")
       .collapse.navbar-collapse
         ul.nav.navbar-nav
           li.nav.navbar-nav
-            a(href="{{pathFor 'ipynb'}}") How to use it ?
+            a(href="{{pathFor 'howToUse'}}") How to use it ?
 
           li.nav.navbar-nav
             a(href="{{pathFor 'ipynb'}}") Try IPyNB
@@ -37,6 +37,9 @@ template(name="navBar")
           li
             +loginButtons
 
+
+template(name="howToUse")
+  h2 how to use?
 
 template(name="course")
   .container
