@@ -128,7 +128,7 @@ Meteor.startup ->
           Session.get "docker"
 
         chats: ->
-          Chat.find()
+          Chat.find {}, {sort: {createAt:-1}}
 
 
       waitOn: -> 
@@ -162,7 +162,7 @@ Meteor.startup ->
           Session.get "docker"
 
         chats: ->
-          Chat.find()
+          Chat.find {}, {sort: {createAt:-1}}
 
 
       waitOn: -> 
