@@ -4,6 +4,9 @@
 @Courses = new Meteor.Collection "courses"
 
 @Dockers = new Meteor.Collection "dockers"
+@DockerImages = new Meteor.Collection "dockerImages"
+@Roles = new Meteor.Collection "roles"
+
 
 @courseCreator = ["W8ry5vcMNY2GhukHA","JESWJnrYeBvB35brZ"]
 
@@ -39,6 +42,24 @@ Meteor.startup ->
         user: ->
           Meteor.user()
 
+    @route "dockers",
+      path: "dockers/"
+      template: "dockers"
+      data:
+        rootURL:rootURL
+        user: ->
+          Meteor.user()
+
+        isAdmin: ->
+          Session.get("isAdmin")
+      
+      waitOn: ->
+        Meteor.call "checkIsAdmin", (err, data)->
+          if not err
+            Session.set "isAdmin", data
+
+      
+    
 
     @route "courses",
       path: "courses/"
@@ -196,8 +217,12 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+
+  if Roles.find().count() is 0
+    Roles.insert {userId:uid, role:"admin"} for uid in courseCreator
+
   @basePort = 8000
-  @allowImages = ["c3h3/oblas-py278-shogun-ipynb", "c3h3/learning-shogun", "rocker/rstudio", "c3h3/dsc2014tutorial"]
+  @allowImages = ["c3h3/oblas-py278-shogun-ipynb", "c3h3/learning-shogun", "rocker/rstudio", "c3h3/dsc2014tutorial","c3h3/livehouse20141105"]
   
 
   Meteor.publish "dockers", ->
@@ -213,6 +238,13 @@ if Meteor.isServer
 
 
   Meteor.methods
+    "checkIsAdmin": ->
+      user = Meteor.user()
+      if not user
+        throw new Meteor.Error(401, "You need to login")
+    
+      Roles.find({userId:user._id}).count() > 0
+
     "createCourse": (courseData) ->
       user = Meteor.user()
 
@@ -255,6 +287,8 @@ if Meteor.isServer
         imageTag = "shogun"
       else if baseImage is "c3h3/dsc2014tutorial"
         imageTag = "dsc2014tutorial"
+      else if baseImage is "c3h3/livehouse20141105"
+        imageTag = "livehouse20141105"
 
       dockerData = 
         userId: user._id
@@ -275,7 +309,7 @@ if Meteor.isServer
         Dockers.insert dockerData
 
         docker.createContainer {Image: dockerData.baseImage, name:dockerData.name}, (err, container) ->
-          if imageTag in ["ipynb","shogun"]
+          if imageTag in ["ipynb","shogun","livehouse20141105"]
             portBind = 
               "8888/tcp": [{"HostPort": fport}] 
           else if imageTag in ["rstudio", "dsc2014tutorial"]
@@ -319,6 +353,9 @@ if Meteor.isServer
         imageTag = "shogun"
       else if baseImage is "c3h3/dsc2014tutorial"
         imageTag = "dsc2014tutorial"
+      else if baseImage is "c3h3/livehouse20141105"
+        imageTag = "livehouse20141105"
+
 
       dockerData = 
         userId: user._id
@@ -339,7 +376,7 @@ if Meteor.isServer
         Dockers.insert dockerData
 
         docker.createContainer {Image: dockerData.baseImage, name:dockerData.name}, (err, container) ->
-          if imageTag in ["ipynb","shogun"]
+          if imageTag in ["ipynb","shogun", "livehouse20141105"]
             portBind = 
               "8888/tcp": [{"HostPort": fport}] 
           else if imageTag in ["rstudio", "dsc2014tutorial"]

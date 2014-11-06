@@ -148,6 +148,33 @@ template(name="howToUse")
             h2 DON'T DONWLOAD TOO LARGE DATASET  ... 
             h3 ( please leave some resources to others ~~~ )
 
+
+
+template(name="dockers")
+  .container
+    .row.clearfix
+      .col-md-12.column
+        table.table.table-hover
+          thead
+            th DockerHubImage
+            th Creator's Name
+            th Create / Delete
+          tbody
+            if isAdmin
+              tr
+                td
+                  input.dockerImage
+                td
+                  p {{user.profile.name}}    
+                td
+                  input.createBt.btn.btn-default(value="Create")
+
+            
+
+
+
+
+
 template(name="course")
   .container
     .row.clearfix
