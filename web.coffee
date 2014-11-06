@@ -277,7 +277,7 @@ if Meteor.isServer
     Courses.find()
 
   Meteor.publish "Chat", (courseId) -> 
-    Chat.find({courseId:courseId}, {sort: {$createAt:-1}, limit:20})
+    Chat.find({courseId:courseId}, {sort: {createAt:-1}, limit:20})
 
   Meteor.methods
     "postChat": (courseId, msg) ->
