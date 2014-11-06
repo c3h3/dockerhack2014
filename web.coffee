@@ -6,6 +6,7 @@
 @Dockers = new Meteor.Collection "dockers"
 @DockerImages = new Meteor.Collection "dockerImages"
 @Roles = new Meteor.Collection "roles"
+@Chat = new Meteor.Collection "chat"
 
 
 @courseCreator = ["W8ry5vcMNY2GhukHA","JESWJnrYeBvB35brZ"]
@@ -119,11 +120,15 @@ Meteor.startup ->
         rootURL:rootURL
         baseImageUrl: "https://registry.hub.docker.com/u/c3h3/oblas-py278-shogun-ipynb/"
         name: "ipynb"
+
         user: ->
           Meteor.user()
 
         docker: ->
           Session.get "docker"
+
+        chats: ->
+          Chat.find()
 
 
       waitOn: -> 
@@ -137,7 +142,10 @@ Meteor.startup ->
           if not err
             Session.set "docker", data
 
-        # Meteor.call "updateDockers"
+        Meteor.subscribe "Chat", "ipynbBasic"
+
+        Session.set "courseId", "ipynbBasic"
+
 
 
      @route "rstudio",
@@ -153,6 +161,10 @@ Meteor.startup ->
         docker: ->
           Session.get "docker"
 
+        chats: ->
+          Chat.find()
+
+
       waitOn: -> 
         userId = Meteor.userId()
         console.log "userId = "
@@ -164,6 +176,9 @@ Meteor.startup ->
           if not err
             Session.set "docker", data
 
+        Meteor.subscribe "Chat", "rstudioBasic"
+
+        Session.set "courseId", "rstudioBasic"
         # Meteor.call "updateDockers"
 
     @route "pleaseLogin",
@@ -193,6 +208,24 @@ if Meteor.isClient
       url = "http://"+rootURL+":"+docker.port
       
       $("#docker").attr 'src', url
+    
+    "change .postChatMsg": (e, t)->
+      e.stopPropagation()
+
+      courseId = Session.get "courseId"
+      msg = $(".postChatMsg").val()
+
+      $(".postChatMsg").val("")
+
+      Meteor.call "postChat", courseId, msg, (err, data) ->
+        if not err
+          console.log "data = "
+          console.log data
+
+      
+      
+
+
 
   Template.courses.events
     "click input.createBt": (e,t) ->
@@ -221,6 +254,13 @@ if Meteor.isServer
   if Roles.find().count() is 0
     Roles.insert {userId:uid, role:"admin"} for uid in courseCreator
 
+  if Chat.find({courseId:"ipynbBasic"}).count() is 0
+    Chat.insert {userId:"systemTest",userName:"systemTest",courseId:"ipynbBasic", msg:"Hello, ipynbBasic", createAt:new Date}
+
+  if Chat.find({courseId:"rstudioBasic"}).count() is 0
+    Chat.insert {userId:"systemTest",userName:"systemTest",courseId:"rstudioBasic", msg:"Hello, rstudioBasic", createAt:new Date}
+
+
   @basePort = 8000
   @allowImages = ["c3h3/oblas-py278-shogun-ipynb", "c3h3/learning-shogun", "rocker/rstudio", "c3h3/dsc2014tutorial","c3h3/livehouse20141105"]
   
@@ -236,8 +276,24 @@ if Meteor.isServer
   Meteor.publish "allCourses", ->
     Courses.find()
 
+  Meteor.publish "Chat", (courseId) -> 
+    Chat.find({courseId:courseId}, {sort: {$createAt:-1}, limit:20})
 
   Meteor.methods
+    "postChat": (courseId, msg) ->
+      user = Meteor.user()
+      if not user
+        throw new Meteor.Error(401, "You need to login")
+      
+      chatData = 
+        userId: user._id
+        userName: user.profile.name 
+        courseId: courseId 
+        msg: msg 
+        createAt: new Date
+
+      Chat.insert chatData
+
     "checkIsAdmin": ->
       user = Meteor.user()
       if not user

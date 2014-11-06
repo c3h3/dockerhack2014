@@ -245,13 +245,27 @@ template(name="analyzer")
     //- a.goBt.btn.btn-default(target="_blank",href="http://{{rootURL}}:{{docker.port}}") Go to {{name}} page  
     //- hr
   .container
-    .tabbable
-      .tab-pane.active
+    .col-md-10.column
+      .tabbable
+        .tab-pane.active
         
-        input.connectBt.btn.btn-default(value="Connect to Docker")        
-        iframe#docker(src="http://{{rootURL}}:{{docker.port}}", width="100%", height="550px", scrolling="yes")
-          p Your browser does not support iframes.
+          input.connectBt.btn.btn-default(value="Connect to Docker")        
+          iframe#docker(src="http://{{rootURL}}:{{docker.port}}", width="100%", height="550px", scrolling="yes")
+            p Your browser does not support iframes.
 
+    .col-md-2.column
+      .chatroom
+        h2 Chatroom:
+        hr
+        input.postChatMsg(placeholder="Chat Message")
+        hr
+        each chats
+          p {{userName}}:
+          p {{msg}}
+
+          hr
+        
+        
 template(name="pleaseLogin")
   .container
     h2 Please Login ! 
