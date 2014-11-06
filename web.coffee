@@ -261,6 +261,11 @@ if Meteor.isServer
     Chat.insert {userId:"systemTest",userName:"systemTest",courseId:"rstudioBasic", msg:"Hello, rstudioBasic", createAt:new Date}
 
 
+  for oneCourse in Courses.find({}, {_id:1}).fetch()
+    if Chat.find({courseId:oneCourse._id}).count() is 0
+      Chat.insert {userId:"systemTest",userName:"systemTest",courseId:oneCourse._id, msg:"Hello!", createAt:new Date}
+
+
   @basePort = 8000
   @allowImages = ["c3h3/oblas-py278-shogun-ipynb", "c3h3/learning-shogun", "rocker/rstudio", "c3h3/dsc2014tutorial","c3h3/livehouse20141105"]
   

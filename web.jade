@@ -254,16 +254,21 @@ template(name="analyzer")
             p Your browser does not support iframes.
 
     .col-md-2.column
-      .chatroom
-        h2 Chatroom:
-        hr
-        input.postChatMsg(placeholder="Chat Message")
-        hr
-        each chats
-          p {{userName}}:
-          p {{msg}}
+      +chatroom
 
-          hr
+
+
+template(name="chatroom")
+  .chatroom
+    h2 Chatroom:
+    hr
+    input.postChatMsg(placeholder="Chat Message")
+    hr
+    each chats
+      p {{userName}}:
+      p {{msg}}
+
+      hr
         
         
 template(name="pleaseLogin")
