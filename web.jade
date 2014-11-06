@@ -180,7 +180,7 @@ template(name="course")
     .row.clearfix
       //- .col-md-6.column
         
-      .col-md-12.column
+      .col-md-10.column
         
         hr
         h2 Docker:
@@ -191,6 +191,8 @@ template(name="course")
         h2 Reference: 
         iframe#slides(src="{{course.slides}}", width="100%", height="550px", scrolling="auto")
       
+      .col-md-2.column
+        +chatroom
 
 
 
@@ -260,7 +262,7 @@ template(name="analyzer")
 
 template(name="chatroom")
   .chatroom
-    h2 Chatroom:
+    h2 Discuss:
     hr
     input.postChatMsg(placeholder="Chat Message")
     hr

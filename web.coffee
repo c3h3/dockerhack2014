@@ -59,8 +59,6 @@ Meteor.startup ->
           if not err
             Session.set "isAdmin", data
 
-      
-    
 
     @route "courses",
       path: "courses/"
@@ -96,6 +94,9 @@ Meteor.startup ->
         docker: ->
           Session.get "docker"
 
+        chats: ->
+          Chat.find {}, {sort: {createAt:-1}}
+
 
       waitOn: -> 
         userId = Meteor.userId()
@@ -106,10 +107,13 @@ Meteor.startup ->
 
         Meteor.subscribe "allCourses"
         Session.set "cid", @params.cid
+        Session.set "courseId", @params.cid
 
         Meteor.call "getCourseDocker", @params.cid, (err, data)->
           if not err
             Session.set "docker", data
+
+        Meteor.subscribe "Chat", @params.cid
 
         
 
@@ -208,7 +212,8 @@ if Meteor.isClient
       url = "http://"+rootURL+":"+docker.port
       
       $("#docker").attr 'src', url
-    
+  
+  Template.chatroom.events
     "change .postChatMsg": (e, t)->
       e.stopPropagation()
 
@@ -290,6 +295,12 @@ if Meteor.isServer
       if not user
         throw new Meteor.Error(401, "You need to login")
       
+      if not courseId
+        throw new Meteor.Error(501, "Need courseId")
+
+      if not msg
+        throw new Meteor.Error(501, "Need msg")
+
       chatData = 
         userId: user._id
         userName: user.profile.name 
