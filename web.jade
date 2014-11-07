@@ -104,7 +104,7 @@ template(name="about")
             
         
 template(name="voteForMe")
-  h1 Docker Hack 2014 Compitetion
+  h2 Docker Hack 2014 Compitetion
   h3 If you like this website, please vote for me!
   h4 (due: 2014/11/10 12:00am PST)
   h4 Please like it, tweet it, and plus it one !!!
@@ -114,7 +114,7 @@ template(name="voteForMe")
   
 
 template(name="voteForMeLinks")
-  a(target="_blank",href="https://www.docker.com/community/globalhackday/") Docker Hack 2014 Compitetion (Voting)
+  //- a(target="_blank",href="https://www.docker.com/community/globalhackday/") Docker Hack 2014 Compitetion (Voting)
 
   iframe(name="f28506ce64" width="80px" height="1000px" frameborder="0" allowtransparency="true" scrolling="no" title="fb:like Facebook Social Plugin" src="https://www.facebook.com/v2.0/plugins/like.php?action=like&amp;app_id=&amp;channel=https%3A%2F%2Fs-static.ak.facebook.com%2Fconnect%2Fxd_arbiter%2FQjK2hWv6uak.js%3Fversion%3D41%23cb%3Df35d846c2c%26domain%3Dwww.docker.com%26origin%3Dhttps%253A%252F%252Fwww.docker.com%252Ff16338fca4%26relation%3Dparent.parent&amp;href=https%3A%2F%2Fwww.docker.com%2Fcommunity%2Fglobalhackday%2F18&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;share=false&amp;show_faces=false&amp;width=80" style="border: none; visibility: visible; width: 79px; height: 20px;" class="")
   iframe(id="twitter-widget-5" scrolling="no" frameborder="0" allowtransparency="true" src="https://platform.twitter.com/widgets/tweet_button.d58098f8a7f0ff5a206e7f15442a6b30.en.html#_=1415333468150&amp;count=horizontal&amp;hashtags=dockerhackday&amp;id=twitter-widget-5&amp;lang=en&amp;original_referer=https%3A%2F%2Fwww.docker.com%2Fcommunity%2Fglobalhackday%2F%2318&amp;size=m&amp;text=I%20voted%20for%20Learning%20Data%20with%20Docker!%20%20by%20%40C3H3tw%20%40docker&amp;url=https%3A%2F%2Fwww.docker.com%2Fcommunity%2Fglobalhackday%2F18%2F" class="twitter-share-button twitter-tweet-button twitter-share-button twitter-count-horizontal" title="Twitter Tweet Button" data-twttr-rendered="true" style="width: 109px; height: 20px;")
@@ -213,16 +213,9 @@ template(name="course")
 template(name="courses")
   .container
     .row.clearfix
-      .col-md-5.column
-        h1 Video
-        iframe#ytplayer(type="text/html",width="100%", height="150px",src="http://www.youtube.com/embed/f1IAuMTUD2k",frameborder="0",allowfullscreen)
-      .col-md-1.column
-      .col-md-6.column
-        +voteForMe
-
-  .container
-    .row.clearfix
       .col-md-12.column
+        +voteForMe
+        h2 Study Materials:
         table.table.table-hover
           thead
             th Name
@@ -264,6 +257,8 @@ template(name="courses")
 
 template(name="analyzer")
   .container
+    +voteForMe
+    hr
     a.btn.btn-default(target="_blank",href="{{baseImageUrl}}") Browse Base Image ({{docker.baseImage}}) on Docker Hub      
     hr
     //- a.goBt.btn.btn-default(target="_blank",href="http://{{rootURL}}:{{docker.port}}") Go to {{name}} page  
@@ -303,7 +298,7 @@ template(name="index")
   .container
     .row.clearfix
       .col-md-5.column
-        h1 Video
+        h2 Video
         iframe#ytplayer(type="text/html",width="100%", height="400px",src="http://www.youtube.com/embed/f1IAuMTUD2k",frameborder="0",allowfullscreen)
       .col-md-1.column
       .col-md-6.column
