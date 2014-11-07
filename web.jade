@@ -30,7 +30,7 @@ template(name="navBar")
             a(href="{{pathFor 'courses'}}") Study Materials
 
           li.nav.navbar-nav
-            a(target="_blank",href="https://www.docker.com/community/globalhackday/#18") Docker Hack 2014 (Go to Vote)
+            +voteForMeLinks
             
 
 
@@ -45,8 +45,7 @@ template(name="about")
   .container
     .row.clearfix
       .col-md-6.column
-        h1
-          a(target="_blank",href="https://www.docker.com/community/globalhackday/#18") Docker Hack 2014 (Go to Vote)
+        +voteForMe
 
         h1 Motivation
         p Because our community hold MLDM Monday event (MLDM stands for Machine Learning and Data Mining) every week in Taipei, 
@@ -104,16 +103,30 @@ template(name="about")
             h3 Manage students' resources and docker instances 
             
         
+template(name="voteForMe")
+  h1 Docker Hack 2014 Compitetion
+  h3 If you like this website, please vote for me!
+  h4 (due: 2014/11/10 12:00am PST)
+  h4 Please like it, tweet it, and plus it one !!!
+  iframe(name="f28506ce64" width="80px" height="1000px" frameborder="0" allowtransparency="true" scrolling="no" title="fb:like Facebook Social Plugin" src="https://www.facebook.com/v2.0/plugins/like.php?action=like&amp;app_id=&amp;channel=https%3A%2F%2Fs-static.ak.facebook.com%2Fconnect%2Fxd_arbiter%2FQjK2hWv6uak.js%3Fversion%3D41%23cb%3Df35d846c2c%26domain%3Dwww.docker.com%26origin%3Dhttps%253A%252F%252Fwww.docker.com%252Ff16338fca4%26relation%3Dparent.parent&amp;href=https%3A%2F%2Fwww.docker.com%2Fcommunity%2Fglobalhackday%2F18&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;share=false&amp;show_faces=false&amp;width=80" style="border: none; visibility: visible; width: 79px; height: 20px;" class="")
+  iframe(id="twitter-widget-5" scrolling="no" frameborder="0" allowtransparency="true" src="https://platform.twitter.com/widgets/tweet_button.d58098f8a7f0ff5a206e7f15442a6b30.en.html#_=1415333468150&amp;count=horizontal&amp;hashtags=dockerhackday&amp;id=twitter-widget-5&amp;lang=en&amp;original_referer=https%3A%2F%2Fwww.docker.com%2Fcommunity%2Fglobalhackday%2F%2318&amp;size=m&amp;text=I%20voted%20for%20Learning%20Data%20with%20Docker!%20%20by%20%40C3H3tw%20%40docker&amp;url=https%3A%2F%2Fwww.docker.com%2Fcommunity%2Fglobalhackday%2F18%2F" class="twitter-share-button twitter-tweet-button twitter-share-button twitter-count-horizontal" title="Twitter Tweet Button" data-twttr-rendered="true" style="width: 109px; height: 20px;")
+  iframe(frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position: static; top: 0px; width: 90px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 20px;" tabindex="0" vspace="0" width="100%" id="I5_1415333467882" name="I5_1415333467882" src="https://apis.google.com/u/0/se/0/_/+1/fastbutton?usegapi=1&amp;size=medium&amp;width=50px&amp;origin=https%3A%2F%2Fwww.docker.com&amp;url=https%3A%2F%2Fwww.docker.com%2Fcommunity%2Fglobalhackday%2F%2318&amp;gsrc=3p&amp;jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.en._bVNyeN_bbw.O%2Fm%3D__features__%2Fam%3DAQ%2Frt%3Dj%2Fd%3D1%2Ft%3Dzcms%2Frs%3DAGLTcCNVi76pN7FwO7NMq1jDa6m1n12XYA#_methods=onPlusOne%2C_ready%2C_close%2C_open%2C_resizeMe%2C_renderstart%2Concircled%2Cdrefresh%2Cerefresh%2Conload&amp;id=I5_1415333467882&amp;parent=https%3A%2F%2Fwww.docker.com&amp;pfname=&amp;rpctoken=37358111" data-gapiattached="true" title="+1")
+  
+
+template(name="voteForMeLinks")
+  a(target="_blank",href="https://www.docker.com/community/globalhackday/") Docker Hack 2014 Compitetion (Voting)
+
+  iframe(name="f28506ce64" width="80px" height="1000px" frameborder="0" allowtransparency="true" scrolling="no" title="fb:like Facebook Social Plugin" src="https://www.facebook.com/v2.0/plugins/like.php?action=like&amp;app_id=&amp;channel=https%3A%2F%2Fs-static.ak.facebook.com%2Fconnect%2Fxd_arbiter%2FQjK2hWv6uak.js%3Fversion%3D41%23cb%3Df35d846c2c%26domain%3Dwww.docker.com%26origin%3Dhttps%253A%252F%252Fwww.docker.com%252Ff16338fca4%26relation%3Dparent.parent&amp;href=https%3A%2F%2Fwww.docker.com%2Fcommunity%2Fglobalhackday%2F18&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;share=false&amp;show_faces=false&amp;width=80" style="border: none; visibility: visible; width: 79px; height: 20px;" class="")
+  iframe(id="twitter-widget-5" scrolling="no" frameborder="0" allowtransparency="true" src="https://platform.twitter.com/widgets/tweet_button.d58098f8a7f0ff5a206e7f15442a6b30.en.html#_=1415333468150&amp;count=horizontal&amp;hashtags=dockerhackday&amp;id=twitter-widget-5&amp;lang=en&amp;original_referer=https%3A%2F%2Fwww.docker.com%2Fcommunity%2Fglobalhackday%2F%2318&amp;size=m&amp;text=I%20voted%20for%20Learning%20Data%20with%20Docker!%20%20by%20%40C3H3tw%20%40docker&amp;url=https%3A%2F%2Fwww.docker.com%2Fcommunity%2Fglobalhackday%2F18%2F" class="twitter-share-button twitter-tweet-button twitter-share-button twitter-count-horizontal" title="Twitter Tweet Button" data-twttr-rendered="true" style="width: 109px; height: 20px;")
+  iframe(frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position: static; top: 0px; width: 90px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 20px;" tabindex="0" vspace="0" width="100%" id="I5_1415333467882" name="I5_1415333467882" src="https://apis.google.com/u/0/se/0/_/+1/fastbutton?usegapi=1&amp;size=medium&amp;width=50px&amp;origin=https%3A%2F%2Fwww.docker.com&amp;url=https%3A%2F%2Fwww.docker.com%2Fcommunity%2Fglobalhackday%2F%2318&amp;gsrc=3p&amp;jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.en._bVNyeN_bbw.O%2Fm%3D__features__%2Fam%3DAQ%2Frt%3Dj%2Fd%3D1%2Ft%3Dzcms%2Frs%3DAGLTcCNVi76pN7FwO7NMq1jDa6m1n12XYA#_methods=onPlusOne%2C_ready%2C_close%2C_open%2C_resizeMe%2C_renderstart%2Concircled%2Cdrefresh%2Cerefresh%2Conload&amp;id=I5_1415333467882&amp;parent=https%3A%2F%2Fwww.docker.com&amp;pfname=&amp;rpctoken=37358111" data-gapiattached="true" title="+1")
+
 
 template(name="howToUse")
   .container
     .row.clearfix
       .col-md-6.column
+        +voteForMe
         
-        h1
-          a(target="_blank",href="https://www.docker.com/community/globalhackday/#18") Docker Hack 2014 (Go to Vote)
-
-
         h1 How to use it NOW?
         ul
           li
@@ -200,6 +213,15 @@ template(name="course")
 template(name="courses")
   .container
     .row.clearfix
+      .col-md-5.column
+        h1 Video
+        iframe#ytplayer(type="text/html",width="100%", height="150px",src="http://www.youtube.com/embed/f1IAuMTUD2k",frameborder="0",allowfullscreen)
+      .col-md-1.column
+      .col-md-6.column
+        +voteForMe
+
+  .container
+    .row.clearfix
       .col-md-12.column
         table.table.table-hover
           thead
@@ -278,6 +300,15 @@ template(name="pleaseLogin")
     h2 Please Login ! 
 
 template(name="index")
+  .container
+    .row.clearfix
+      .col-md-5.column
+        h1 Video
+        iframe#ytplayer(type="text/html",width="100%", height="400px",src="http://www.youtube.com/embed/f1IAuMTUD2k",frameborder="0",allowfullscreen)
+      .col-md-1.column
+      .col-md-6.column
+        +voteForMe
+
   .container
     .row.clearfix
       .col-md-6.column
