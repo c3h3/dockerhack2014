@@ -43,6 +43,29 @@ Meteor.startup ->
         user: ->
           Meteor.user()
 
+    @route "wishFeatures",
+      path: "wishFeatures/"
+      template: "wishFeatures/"
+      data:
+        rootURL:rootURL
+        user: ->
+          Meteor.user()
+
+        chats: ->
+          Chat.find {}, {sort: {createAt:-1}}
+
+      waitOn: ->
+        userId = Meteor.userId()
+        console.log "userId = "
+        console.log userId
+        if not userId 
+          Router.go "pleaseLogin"
+
+        Meteor.subscribe "Chat", "wishFeatures"
+
+        Session.set "courseId", "wishFeatures"
+
+      
     @route "dockers",
       path: "dockers/"
       template: "dockers"
@@ -264,6 +287,9 @@ if Meteor.isServer
 
   if Chat.find({courseId:"rstudioBasic"}).count() is 0
     Chat.insert {userId:"systemTest",userName:"systemTest",courseId:"rstudioBasic", msg:"Hello, rstudioBasic", createAt:new Date}
+
+  if Chat.find({courseId:"wishFeatures"}).count() is 0
+    Chat.insert {userId:"systemTest",userName:"systemTest",courseId:"wishFeatures", msg:"Hello, wishFeatures", createAt:new Date}
 
 
   for oneCourse in Courses.find({}, {_id:1}).fetch()

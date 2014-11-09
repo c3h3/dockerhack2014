@@ -29,8 +29,11 @@ template(name="navBar")
           li.nav.navbar-nav
             a(href="{{pathFor 'courses'}}") Study Materials
 
+          //- li.nav.navbar-nav
+          //-   +voteForMeLinks
+
           li.nav.navbar-nav
-            +voteForMeLinks
+            a(href="{{pathFor 'wishFeatures'}}") Wish Features
             
 
 
@@ -131,7 +134,7 @@ template(name="howToUse")
         ul
           li
             h3 
-              a(href="{{pathFor 'ipynb'}}") IPython Notebook 
+              a(href="{{pathFor 'ipynb'}}") Try IPython Notebook 
           li
             h3 
               a(href="{{pathFor 'rstudio'}}") Try RStudio
@@ -160,6 +163,15 @@ template(name="howToUse")
           li 
             h2 DON'T DONWLOAD TOO LARGE DATASET  ... 
             h3 ( please leave some resources to others ~~~ )
+
+
+
+template(name="wishFeatures")
+  .container
+    .row.clearfix
+      .col-md-12.column
+        +chatroom
+  
 
 
 
@@ -286,7 +298,7 @@ template(name="chatroom")
     each chats
       p {{userName}}:
       p {{msg}}
-
+      p(style="font-size:8px") {{createAt}}
       hr
         
         
