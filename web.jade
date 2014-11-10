@@ -20,11 +20,11 @@ template(name="navBar")
           li.nav.navbar-nav
             a(href="{{pathFor 'howToUse'}}") How to use it ?
 
-          li.nav.navbar-nav
-            a(href="{{pathFor 'ipynb'}}") Try IPyNB
+          //- li.nav.navbar-nav
+          //-   a(href="{{pathFor 'ipynb'}}") Try IPyNB
 
-          li.nav.navbar-nav
-            a(href="{{pathFor 'rstudio'}}") Try RStudio
+          //- li.nav.navbar-nav
+          //-   a(href="{{pathFor 'rstudio'}}") Try RStudio
 
           li.nav.navbar-nav
             a(href="{{pathFor 'courses'}}") Study Materials
@@ -48,7 +48,7 @@ template(name="about")
   .container
     .row.clearfix
       .col-md-6.column
-        +voteForMe
+        //- +voteForMe
 
         h1 Motivation
         p Because our community hold MLDM Monday event (MLDM stands for Machine Learning and Data Mining) every week in Taipei, 
@@ -128,7 +128,7 @@ template(name="howToUse")
   .container
     .row.clearfix
       .col-md-6.column
-        +voteForMe
+        //- +voteForMe
         
         h1 How to use it NOW?
         ul
@@ -226,7 +226,7 @@ template(name="courses")
   .container
     .row.clearfix
       .col-md-12.column
-        +voteForMe
+        //- +voteForMe
         h2 Study Materials:
         table.table.table-hover
           thead
@@ -251,6 +251,30 @@ template(name="courses")
                   p {{user.profile.name}}    
                 td
                   input.createBt.btn.btn-default(value="Create")
+
+
+            tr
+              td 
+                a(href="{{pathFor 'ipynb'}}") Try IPyNB
+              td 
+                a(target="_blank",href="https://registry.hub.docker.com/u/c3h3/oblas-py278-shogun-ipynb") c3h3/oblas-py278-shogun-ipynb
+              td 
+                p Link
+              td 
+              td 
+              td 
+
+            tr
+              td 
+                a(href="{{pathFor 'rstudio'}}") Try RStudio
+              td 
+                a(target="_blank",href="https://registry.hub.docker.com/u/rocker/rstudio") rocker/rstudio
+              td 
+                p Link
+              td 
+              td 
+              td 
+
 
             each courses
               tr
@@ -307,14 +331,14 @@ template(name="pleaseLogin")
     h2 Please Login ! 
 
 template(name="index")
-  .container
-    .row.clearfix
-      .col-md-5.column
-        h2 Video
-        iframe#ytplayer(type="text/html",width="100%", height="400px",src="http://www.youtube.com/embed/f1IAuMTUD2k",frameborder="0",allowfullscreen)
-      .col-md-1.column
-      .col-md-6.column
-        +voteForMe
+  //- .container
+  //-   .row.clearfix
+  //-     .col-md-5.column
+  //-       h2 Video
+  //-       iframe#ytplayer(type="text/html",width="100%", height="400px",src="http://www.youtube.com/embed/f1IAuMTUD2k",frameborder="0",allowfullscreen)
+  //-     .col-md-1.column
+  //-     .col-md-6.column
+  //-       +voteForMe
 
   .container
     .row.clearfix
